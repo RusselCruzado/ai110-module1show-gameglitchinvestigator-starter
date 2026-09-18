@@ -1,5 +1,6 @@
 import random
 import streamlit as st
+from logic_utils import check_guess
 
 def get_range_for_difficulty(difficulty: str):
     if difficulty == "Easy":
@@ -27,26 +28,7 @@ def parse_guess(raw: str):
         return False, None, "That is not a number."
 
     return True, value, None
-
-
-def check_guess(guess, secret):
-    if guess == secret:
-        return "Win", "🎉 Correct!"
-
-    try:
-        if guess > secret:
-            return "Too High", "📈 Go HIGHER!"
-        else:
-            return "Too Low", "📉 Go LOWER!"
-    except TypeError:
-        g = str(guess)
-        if g == secret:
-            return "Win", "🎉 Correct!"
-        if g > secret:
-            return "Too High", "📈 Go HIGHER!"
-        return "Too Low", "📉 Go LOWER!"
-
-
+# FIX: Refactored logic using agent mode, app sends "Too High" to logic_utils.py that returns "📉 Go LOWER!" and "Too Low" returns "📈 Go HIGHER!"
 def update_score(current_score: int, outcome: str, attempt_number: int):
     if outcome == "Win":
         points = 100 - 10 * (attempt_number + 1)
@@ -91,7 +73,7 @@ st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
-
+# FIX ME: Logic breaks here, when attempts left is 1, the game ends, but the user should still be able to make a guess. 
 if "attempts" not in st.session_state:
     st.session_state.attempts = 1
 
@@ -155,12 +137,7 @@ if submit:
     else:
         st.session_state.history.append(guess_int)
 
-        if st.session_state.attempts % 2 == 0:
-            secret = str(st.session_state.secret)
-        else:
-            secret = st.session_state.secret
-
-        outcome, message = check_guess(guess_int, secret)
+        outcome, message = check_guess(guess_int, st.session_state.secret)
 
         if show_hint:
             st.warning(message)
