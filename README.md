@@ -26,18 +26,24 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 📝 Document Your Experience
 
 - [ ] Describe the game's purpose.
+      To guess the secret number. 
 - [ ] Detail which bugs you found.
+      Hints prompts showed wrong hints. 
+      Attempts left value was not accurate. 
 - [ ] Explain what fixes you applied.
+      Switched "Go LOWER" and "Go HIGHER" in app.py and in logic_utils.py
+      "Attempts left" renders after submitted guesses are processed. 
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. User enters 52
+2. Game returns "Go LOWER"
+3. User enters 17
+4. Game returns "Go HIGHER"
+5. User enters 18
+6. Game returns "You won!"
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
